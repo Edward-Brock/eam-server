@@ -13,6 +13,23 @@ EAM（企业资产管理系统）服务端使用[Nest.js](https://nestjs.com/)�
 - [TypeORM](https://typeorm.io/)
 - [Node MySQL 2](https://github.com/sidorares/node-mysql2)
 
+## 如何使用
+
+### 安装依赖
+
+```shell
+cd eam-server
+npm install
+```
+
+### 调试
+
+`npm run start:dev`
+
+### 运行
+
+`npm run start`
+
 ## LICENSE
 
 [GNU General Public License v3.0](LICENSE)
