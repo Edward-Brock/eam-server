@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './config/env';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import envConfig from './config/env';
         // entities: ['dist/**/*.entity{ .ts,.js}'], // 数据表实体
         autoLoadEntities: true,
       })
-    })
+    }),
+    UsersModule
   ],
   controllers: [AppController],
   providers: [AppService],
