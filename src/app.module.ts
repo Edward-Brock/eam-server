@@ -5,6 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './config/env';
 import { UserModule } from './modules/user/user.module';
+import { AssetModule } from './modules/asset/asset.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { UserModule } from './modules/user/user.module';
         autoLoadEntities: true,
       })
     }),
-    UserModule
+    UserModule,
+    AssetModule
   ],
   controllers: [AppController],
   providers: [AppService],

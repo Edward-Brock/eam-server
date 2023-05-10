@@ -1,4 +1,5 @@
-import { Entity, BaseEntity, Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { AssetEntity } from "src/modules/asset/entities/asset.entity";
+import { Entity, BaseEntity, Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany } from "typeorm";
 
 // 性别枚举
 export enum UserGender {
@@ -27,12 +28,12 @@ export class UserEntity extends BaseEntity {
     gender: UserGender;
 
     @Column({
-        comment: '用户微信SESSION KEY'
+        comment: '用户微信 SESSION KEY'
     })
     session_key: string;
 
     @Column({
-        comment: '用户微信OPENID'
+        comment: '用户微信 OPENID'
     })
     openid: string;
 
@@ -67,7 +68,7 @@ export class UserEntity extends BaseEntity {
     state: number;
 
     @Column({
-        comment: '用户删除状态',
+        comment: '用户删除状态：默认为假',
         default: false
     })
     del_flag: boolean;
@@ -88,4 +89,7 @@ export class UserEntity extends BaseEntity {
         nullable: true,
     })
     delete_time: Date;
+
+    @OneToMany(() => AssetEntity, asset => asset.code)
+    asset: AssetEntity;
 }
