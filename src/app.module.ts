@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './config/env';
-import { UsersModule } from './modules/users/users.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -29,7 +29,7 @@ import { UsersModule } from './modules/users/users.module';
         autoLoadEntities: true,
       })
     }),
-    UsersModule
+    UserModule
   ],
   controllers: [AppController],
   providers: [AppService],
