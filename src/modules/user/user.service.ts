@@ -43,8 +43,9 @@ export class UserService {
     return this.userRepository.findOneBy({ openid: id });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return this.userRepository.update(id, updateUserDto);
+  update(id: string, updateUserDto: UpdateUserDto) {
+    updateUserDto.update_time = new Date();
+    return this.userRepository.update({ openid: id }, updateUserDto);
   }
 
   async remove(id: string) {
