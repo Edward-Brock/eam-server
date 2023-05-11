@@ -24,7 +24,7 @@ export class AssetController {
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAssetDto: UpdateAssetDto) {
-    return this.assetService.update(+id, updateAssetDto);
+    return this.assetService.update(id, updateAssetDto);
   }
 
   @Delete(':id')

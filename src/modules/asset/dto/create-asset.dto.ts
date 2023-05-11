@@ -11,7 +11,9 @@ export class CreateAssetDto {
     description: Date;
     state: AssetState;
     del_flag: boolean;
+    create_by: string;
     create_time: Date;
+    update_by: string;
     update_time: Date;
     delete_time: Date;
 }

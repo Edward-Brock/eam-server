@@ -43,16 +43,25 @@ export class AssetService {
     return this.assetRepository.findOneBy({ code: id });
   }
 
-  update(id: number, updateAssetDto: UpdateAssetDto) {
-    return this.assetRepository.update(id, updateAssetDto);
+  update(id: string, updateAssetDto: UpdateAssetDto) {
+    updateAssetDto.update_time = new Date();
+    return this.assetRepository.update({ code: id }, updateAssetDto);
   }
 
   async remove(id: string) {
-    let del_info = await this.findOne(id);
+    /**
+     * 使用软删除，对del_flag进行标记，将delete_time置为当前时间
+     * 0-false（未删除）；1-true（已删除）；
+     */
+    let del_info = await this.assetRepository.findOneBy({ code: id });
     del_info.state = AssetState.DEACTIVATE;
     del_info.delete_flag = true;
     del_info.delete_time = new Date();
     console.log(del_info);
-    return this.assetRepository.update(id, del_info);
+    if (this.assetRepository.update({ code: id }, del_info)) return {
+      code: 200,
+      state: 'success',
+      message: '资产删除成功'
+    }
   }
 }
