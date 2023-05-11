@@ -30,6 +30,21 @@ npm install
 
 `npm run start`
 
+## 已完成的功能
+
+- 用户模块
+  - [x] 用户创建
+  - [x] 用户更新
+  - [x] 用户删除
+- 资产模块
+  - [x] 资产创建
+  - [x] 资产更新
+  - [x] 资产删除
+- 设置模块
+  - [x] 设置创建
+  - [x] 设置更新
+  - [x] 设置删除
+
 ## LICENSE
 
 [GNU General Public License v3.0](LICENSE)

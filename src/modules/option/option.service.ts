@@ -9,26 +9,26 @@ import { Repository } from 'typeorm';
 export class OptionService {
   constructor(
     @InjectRepository(OptionEntity)
-    private userRepository: Repository<OptionEntity>,
+    private optionRepository: Repository<OptionEntity>,
   ) { }
 
   create(createOptionDto: CreateOptionDto) {
-    return 'This action adds a new option';
+    return this.optionRepository.save(createOptionDto);
   }
 
   findAll() {
-    return `This action returns all option`;
+    return this.optionRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} option`;
+    return this.optionRepository.findOneBy({ option_id: id });
   }
 
-  update(id: number, updateOptionDto: UpdateOptionDto) {
-    return `This action updates a #${id} option`;
+  update(id: string, updateOptionDto: UpdateOptionDto) {
+    return this.optionRepository.update({ option_name: id }, updateOptionDto);
   }
 
   remove(id: number) {
-    return `This action removes a #${id} option`;
+    return this.optionRepository.delete(id);
   }
 }
