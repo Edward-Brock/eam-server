@@ -1,10 +1,15 @@
-import { UserEntity } from "src/modules/user/entities/user.entity";
-import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { BaseEntity, Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 // 设备状态枚举
 export enum AssetState {
+    // 未使用
     UNUSED = "unused",
-    USING = "using"
+    // 使用中
+    USING = "using",
+    // 已停用
+    DEACTIVATE = 'deactivate',
+    // 报废
+    WRECK = 'wreck'
 }
 
 @Entity('asset')
@@ -20,9 +25,16 @@ export class AssetEntity extends BaseEntity {
     code: string;
 
     @Column({
-        comment: '资产类型'
+        comment: '资产类型',
+        nullable: true
     })
     type: string;
+
+    @Column({
+        comment: '资产品牌',
+        nullable: true
+    })
+    brand: string;
 
     @Column({
         comment: '资产名称'
@@ -30,10 +42,18 @@ export class AssetEntity extends BaseEntity {
     name: string;
 
     @Column({
-        comment: '资产价格',
-        type: "decimal"
+        comment: '资产价格，保留小数点后两位',
+        type: 'decimal',
+        precision: 10,
+        scale: 2
     })
     price: number;
+
+    @Column({
+        comment: '是否涉密标志',
+        default: false
+    })
+    secret_flag: boolean
 
     @Column({
         comment: '资产购入时间'
@@ -41,19 +61,23 @@ export class AssetEntity extends BaseEntity {
     purchase_time: Date;
 
     @Column({
-        comment: '资产报废时间'
+        comment: '资产报废时间',
+        nullable: true
     })
     retirement_time: Date;
 
     @Column({
-        comment: '资产备注'
+        comment: '资产备注',
+        type: 'text',
+        nullable: true
     })
     description: Date;
 
     @Column({
         comment: '资产状态',
         type: 'enum',
-        enum: AssetState
+        enum: AssetState,
+        default: AssetState.UNUSED
     })
     state: AssetState;
 
@@ -61,12 +85,22 @@ export class AssetEntity extends BaseEntity {
         comment: '设备删除标记',
         default: false
     })
-    del_flag: boolean;
+    delete_flag: boolean;
+
+    @Column({
+        comment: '资产设备创建者'
+    })
+    create_by: string;
 
     @CreateDateColumn({
         comment: '资产设备创建日期',
     })
     create_time: Date;
+
+    @Column({
+        comment: '资产设备更新者'
+    })
+    update_by: string;
 
     @UpdateDateColumn({
         comment: '资产设备更新日期',
@@ -79,8 +113,4 @@ export class AssetEntity extends BaseEntity {
         nullable: true,
     })
     delete_time: Date;
-
-    @ManyToOne(() => UserEntity, user => user.openid)
-    @JoinColumn({ name: 'create_by' })
-    user: UserEntity;
 }

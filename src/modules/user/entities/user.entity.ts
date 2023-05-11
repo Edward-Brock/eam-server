@@ -1,10 +1,21 @@
-import { AssetEntity } from "src/modules/asset/entities/asset.entity";
-import { Entity, BaseEntity, Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, OneToMany } from "typeorm";
+import { Entity, BaseEntity, Column, CreateDateColumn, DeleteDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 // 性别枚举
 export enum UserGender {
+    // 男性
     MALE = "male",
+    // 女性
     FEMALE = "female"
+}
+
+// 性别枚举
+export enum UserType {
+    // 主管理员
+    ROOT = "root",
+    // 管理员
+    ADMIN = "admin",
+    // 员工
+    STAFF = "staff"
 }
 
 @Entity('user')
@@ -56,10 +67,12 @@ export class UserEntity extends BaseEntity {
     tel: string;
 
     @Column({
-        comment: '管理员标志',
-        default: false
+        comment: '用户身份标识',
+        type: 'enum',
+        enum: UserType,
+        default: UserType.STAFF
     })
-    manage_flag: boolean;
+    user_type: UserType;
 
     @Column({
         comment: '用户账号当前状态：1-未启用；2-正常；3-锁定；',
@@ -71,7 +84,7 @@ export class UserEntity extends BaseEntity {
         comment: '用户删除状态：默认为假',
         default: false
     })
-    del_flag: boolean;
+    delete_flag: boolean;
 
     @CreateDateColumn({
         comment: '数据创建日期',
@@ -89,7 +102,4 @@ export class UserEntity extends BaseEntity {
         nullable: true,
     })
     delete_time: Date;
-
-    @OneToMany(() => AssetEntity, asset => asset.code)
-    asset: AssetEntity;
 }

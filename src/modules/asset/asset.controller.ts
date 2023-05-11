@@ -19,7 +19,7 @@ export class AssetController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.assetService.findOne(+id);
+    return this.assetService.findOne(id);
   }
 
   @Patch(':id')
@@ -29,6 +29,6 @@ export class AssetController {
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.assetService.remove(+id);
+    return this.assetService.remove(id);
   }
 }

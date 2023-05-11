@@ -1,4 +1,4 @@
-import { UserGender } from "../entities/user.entity";
+import { UserGender, UserType } from "../entities/user.entity";
 
 export class CreateUserDto {
     user_id: number;
@@ -9,7 +9,7 @@ export class CreateUserDto {
     nickname: string;
     avatar: string;
     tel: string;
-    manage_flag: boolean;
+    user_type: UserType;
     state: number;
     del_flag: boolean;
     create_time: Date;
