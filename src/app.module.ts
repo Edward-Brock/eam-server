@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import envConfig from './config/env';
 import { UserModule } from './modules/user/user.module';
 import { AssetModule } from './modules/asset/asset.module';
+import { OptionModule } from './modules/option/option.module';
 
 @Module({
   imports: [
@@ -31,7 +32,8 @@ import { AssetModule } from './modules/asset/asset.module';
       })
     }),
     UserModule,
-    AssetModule
+    AssetModule,
+    OptionModule
   ],
   controllers: [AppController],
   providers: [AppService],
