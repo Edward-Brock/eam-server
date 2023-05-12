@@ -12,10 +12,10 @@ export class AssetController {
     return this.assetService.create(createAssetDto);
   }
 
-  @Get()
-  findAll() {
-    return this.assetService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.assetService.findAll();
+  // }
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -12,9 +12,19 @@ export class OptionController {
     return this.optionService.create(createOptionDto);
   }
 
-  @Get()
-  findAll() {
-    return this.optionService.findAll();
+  // @Get()
+  // findAll() {
+  //   return this.optionService.findAll();
+  // }
+
+  /**
+   * 获取系统状态
+   * 可访问即代表状态正常，
+   * @returns object
+   */
+  @Get('getSystemState')
+  getSystemState() {
+    return this.optionService.getSystemState();
   }
 
   @Get(':id')
