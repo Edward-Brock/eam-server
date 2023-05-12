@@ -44,7 +44,7 @@ export class AssetService {
    * @param asset_type 传入需要筛选获得的值
    * @returns object
    */
-  async getPrice(asset_type: string) {
+  async getAssetPrice(asset_type: string) {
     let assets_all_price: number = 0;
     const assets_info = await this.assetRepository.findBy({ delete_flag: false });
 
@@ -100,6 +100,23 @@ export class AssetService {
         };
       }
     }
+  }
+
+  /**
+   * 通过传入的 asset_type 值进行筛选，并返回对应的资产个数
+   * @param asset_type 传入需要筛选获得的值
+   * @returns object
+   */
+  async getAssetNumber(query: object) {
+    let assets_all_price: number = 0;
+    const assets_info = await this.assetRepository.findAndCountBy(query);
+    return {
+      code: 200,
+      state: 'success',
+      message: '资产金额获取成功',
+      type: query,
+      data: assets_info
+    };
   }
 
   findOne(id: string) {

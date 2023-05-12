@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { AssetService } from './asset.service';
 import { CreateAssetDto } from './dto/create-asset.dto';
 import { UpdateAssetDto } from './dto/update-asset.dto';
@@ -18,12 +18,21 @@ export class AssetController {
   // }
 
   /**
-   * 获取所有资产统计金额
+   * 获取资产统计金额
    * @returns object
    */
-  @Get('getPrice/:asset_type')
-  getPrice(@Param('asset_type') asset_type: string) {
-    return this.assetService.getPrice(asset_type);
+  @Get('getAssetPrice/:asset_type')
+  getAssetPrice(@Param('asset_type') asset_type: string) {
+    return this.assetService.getAssetPrice(asset_type);
+  }
+
+  /**
+   * 获取资产统计个数
+   * @returns object
+   */
+  @Get('getAssetNumber')
+  getAssetNumber(@Query() query: object) {
+    return this.assetService.getAssetNumber(query);
   }
 
   @Get(':id')
