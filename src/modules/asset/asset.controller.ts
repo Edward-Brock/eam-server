@@ -17,6 +17,15 @@ export class AssetController {
   //   return this.assetService.findAll();
   // }
 
+  /**
+   * 获取所有资产统计金额
+   * @returns object
+   */
+  @Get('getPrice/:asset_type')
+  getPrice(@Param('asset_type') asset_type: string) {
+    return this.assetService.getPrice(asset_type);
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.assetService.findOne(id);
