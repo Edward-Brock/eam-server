@@ -12,6 +12,7 @@ EAM（企业资产管理系统）服务端使用[Nest.js](https://nestjs.com/)�
 
 - [TypeORM](https://typeorm.io/)
 - [Node MySQL 2](https://github.com/sidorares/node-mysql2)
+- [axios](https://axios-http.com/)
 
 ## 如何使用
 
@@ -34,6 +35,7 @@ npm install
 
 - 用户模块
   - [x] 用户创建
+  - [x] 通过临时 CODE 获取 OPENID 和 SESSION
   - [x] 用户更新
   - [x] 用户删除
 - 资产模块

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { OptionService } from './option.service';
 import { CreateOptionDto } from './dto/create-option.dto';
 import { UpdateOptionDto } from './dto/update-option.dto';
@@ -19,12 +19,20 @@ export class OptionController {
 
   /**
    * 获取系统状态
-   * 可访问即代表状态正常，
    * @returns object
    */
   @Get('getSystemState')
   getSystemState() {
     return this.optionService.getSystemState();
+  }
+
+  /**
+   * 通过微信 CODE 换取 SESSION 
+   * @returns object
+   */
+  @Get('getCodeToSession')
+  getCodeToSession(@Query() query: object) {
+    return this.optionService.getCodeToSession(query);
   }
 
   @Get(':id')
