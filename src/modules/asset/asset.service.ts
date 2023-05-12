@@ -44,62 +44,24 @@ export class AssetService {
    * @param asset_type 传入需要筛选获得的值
    * @returns object
    */
-  async getAssetPrice(asset_type: string) {
+  async getAssetPrice(query: object) {
+    // 将 query 中添加 delete_flag 为假的未删除标记
+    query['delete_flag'] = false;
     let assets_all_price: number = 0;
-    const assets_info = await this.assetRepository.findBy({ delete_flag: false });
+    const get_assets = await this.assetRepository.findAndCountBy(query);
+    let [assets_info, assets_length] = get_assets;
 
-    /**
-     * 通过 type 传值进行判读返回统计的总金额
-     * all —— 包括未使用、使用中、已停用、报废的资产设备
-     * unused —— 包括未使用的资产设备
-     * using —— 包括使用中的资产设备
-     * deactivate —— 包括已停用的资产设备
-     * wreck —— 包括报废的资产设备
-     */
-    switch (asset_type) {
-      case 'all':
-        return getTypePrice('all');
-      case 'unused':
-        return getTypePrice('unused');
-      case 'using':
-        return getTypePrice('using');
-      case 'deactivate':
-        return getTypePrice('deactivate');
-      case 'wreck':
-        return getTypePrice('wreck');
+    for (let index = 0; index < assets_length; index++) {
+      assets_all_price += +assets_info[index].price;
     }
 
-    function getTypePrice(type: string) {
-      if (type === 'all') {
-        for (let index = 0; index < assets_info.length; index++) {
-          // 判断该数据是否为删除数据，如果为删除数据不进行统计
-          if (!assets_info[index].delete_flag) {
-            assets_all_price += +assets_info[index].price;
-          }
-        }
-        return {
-          code: 200,
-          state: 'success',
-          message: '资产金额获取成功',
-          type,
-          data: assets_all_price
-        };
-      } else {
-        for (let index = 0; index < assets_info.length; index++) {
-          // 判断该数据是否为删除数据，如果为删除数据不进行统计
-          if (!assets_info[index].delete_flag && assets_info[index].state === type) {
-            assets_all_price += +assets_info[index].price;
-          }
-        }
-        return {
-          code: 200,
-          state: 'success',
-          message: '资产金额获取成功',
-          type,
-          data: assets_all_price
-        };
-      }
-    }
+    return {
+      code: 200,
+      state: 'success',
+      message: '资产金额获取成功',
+      type: query,
+      data: assets_all_price
+    };
   }
 
   /**
@@ -108,7 +70,6 @@ export class AssetService {
    * @returns object
    */
   async getAssetNumber(query: object) {
-    let assets_all_price: number = 0;
     const assets_info = await this.assetRepository.findAndCountBy(query);
     return {
       code: 200,

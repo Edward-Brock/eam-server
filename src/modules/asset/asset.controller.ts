@@ -21,9 +21,9 @@ export class AssetController {
    * 获取资产统计金额
    * @returns object
    */
-  @Get('getAssetPrice/:asset_type')
-  getAssetPrice(@Param('asset_type') asset_type: string) {
-    return this.assetService.getAssetPrice(asset_type);
+  @Get('getAssetPrice')
+  getAssetPrice(@Query() query: object) {
+    return this.assetService.getAssetPrice(query);
   }
 
   /**
