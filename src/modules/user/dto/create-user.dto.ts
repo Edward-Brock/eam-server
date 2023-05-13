@@ -4,6 +4,8 @@ export class CreateUserDto {
     user_id: number;
     name: string;
     gender: UserGender;
+    birthday: Date;
+    joined_date: Date;
     session_key: string;
     openid: string;
     nickname: string;
