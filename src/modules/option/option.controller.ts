@@ -35,9 +35,9 @@ export class OptionController {
     return this.optionService.getCodeToSession(query);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.optionService.findOne(+id);
+  @Get('getOption')
+  findOne(@Query() query: object) {
+    return this.optionService.findOne(query);
   }
 
   @Patch(':id')

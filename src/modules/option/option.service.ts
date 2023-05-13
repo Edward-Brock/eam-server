@@ -85,8 +85,8 @@ export class OptionService {
     });
   }
 
-  findOne(id: number) {
-    return this.optionRepository.findOneBy({ option_id: id });
+  findOne(query: object) {
+    return this.optionRepository.findOneBy(query);
   }
 
   update(id: string, updateOptionDto: UpdateOptionDto) {
