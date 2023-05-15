@@ -7,6 +7,7 @@ import envConfig from './config/env';
 import { UserModule } from './modules/user/user.module';
 import { AssetModule } from './modules/asset/asset.module';
 import { OptionModule } from './modules/option/option.module';
+import { UploadModule } from './modules/upload/upload.module';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { OptionModule } from './modules/option/option.module';
     }),
     UserModule,
     AssetModule,
-    OptionModule
+    OptionModule,
+    UploadModule
   ],
   controllers: [AppController],
   providers: [AppService],
