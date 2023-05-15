@@ -5,13 +5,34 @@ import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname, join } from 'path';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { checkDirAndCreate } from '../../utils/checkDirAndCreate';
+const image = ['gif', 'png', 'jpg', 'jpeg', 'bmp', 'webp'];
+const video = ['mp4', 'webm'];
+const audio = ['mp3', 'wav', 'ogg'];
 
 // 配置文件上传
 const multerOptions: MulterOptions = {
   // 配置文件的存储
   storage: diskStorage({
     // 存储地址
-    destination: join(__dirname, '../../public/images'), // 存放的文件路径
+    // 配置文件上传后的文件夹路径
+    destination: (req, file, cb) => {
+      // 根据上传的文件类型将图片视频音频和其他类型文件分别存到对应英文文件夹
+      const mimeType = file.mimetype.split('/')[1];
+      let temp = 'other';
+      image.filter(item => item === mimeType).length > 0
+        ? (temp = 'image')
+        : '';
+      video.filter(item => item === mimeType).length > 0
+        ? (temp = 'video')
+        : '';
+      audio.filter(item => item === mimeType).length > 0
+        ? (temp = 'audio')
+        : '';
+      const filePath = `public/upload/${temp}/`;
+      checkDirAndCreate(filePath); // 判断文件夹是否存在，不存在则自动生成
+      return cb(null, `./${filePath}`);
+    },
     // 存储名称
     filename: (req, file, callback) => {
       const suffix = extname(file.originalname); // 获取文件后缀

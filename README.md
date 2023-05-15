@@ -14,6 +14,16 @@ EAM（企业资产管理系统）服务端使用[Nest.js](https://nestjs.com/)�
 - [Node MySQL 2](https://github.com/sidorares/node-mysql2)
 - [Axios](https://axios-http.com/)
 
+## 文件结构
+
+- config
+  - env.ts：env 环境判断切换
+- modules
+  - asset：资产设备模块
+  - option：EAM 设置模块
+  - upload：文件模块
+  - user：用户模块
+
 ## 如何使用
 
 ### 安装依赖
@@ -50,6 +60,7 @@ npm install
   - [x] 设置删除
 - 文件模块
   - [x] 文件上传
+  - [x] 文件下载
 
 ## LICENSE
 

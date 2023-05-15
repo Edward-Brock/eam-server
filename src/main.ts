@@ -7,7 +7,7 @@ import { join } from 'path';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
-  app.useStaticAssets(join(__dirname, '..', 'public'), { prefix: '/static' });
+  app.useStaticAssets(join(__dirname, '../', 'public'), { prefix: '/static' });
   app.use(express.urlencoded({ extended: true }));
   app.enableCors();
   const configService: ConfigService = app.get<ConfigService>(ConfigService);
