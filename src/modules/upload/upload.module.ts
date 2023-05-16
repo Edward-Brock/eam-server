@@ -3,7 +3,7 @@ import { UploadService } from './upload.service';
 import { UploadController } from './upload.controller';
 import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { extname, join } from 'path';
+import { extname } from 'path';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { checkDirAndCreate } from '../../utils/checkDirAndCreate';
 const image = ['gif', 'png', 'jpg', 'jpeg', 'bmp', 'webp'];
