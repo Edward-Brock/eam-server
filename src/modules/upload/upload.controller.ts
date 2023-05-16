@@ -1,31 +1,34 @@
-import { Controller, Post, UseInterceptors, UploadedFile, Get, Res, UploadedFiles, Body, Query } from '@nestjs/common';
+import { Controller, Post, UseInterceptors, UploadedFile, Get, Res, UploadedFiles, Query } from '@nestjs/common';
 import { UploadService } from './upload.service';
-import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { AnyFilesInterceptor, FileFieldsInterceptor } from '@nestjs/platform-express';
 import { join } from 'path';
-import type { Response, query } from 'express';
+import type { Response } from 'express';
 import { zip } from 'compressing';
-import { createWriteStream } from 'fs';
 
 @Controller('upload')
 export class UploadController {
   constructor(private readonly uploadService: UploadService) { }
 
   /**
-   * 上传单个文件
+   * 上传单个文件，filename 自行编辑
    * @param file 
    * @returns 
    */
-  @Post('file')
+  @Post('uploadFile')
   // UseInterceptors 处理文件的中间件，file 是一个标识名
-  @UseInterceptors(FileInterceptor('file'))
+  @UseInterceptors(AnyFilesInterceptor())
   // UploadedFile 装饰器是用于读取文件的
-  uploadFile(@UploadedFile() file) {
-    console.log("file：", file);
+  uploadFile(@UploadedFiles() files) {
+    for (const file of files) {
+      file.path = file.path.replace(/\\/g, '/'); // 转换正反斜线，转换结果如： `"path": "public/uploads/image/2020-04-08/V0QYQ0VN3GH6ASHXCGC901.jpg",`
+    }
+    console.log(files);
+
     return {
       code: 200,
       state: 'success',
       message: '文件上传成功',
-      file
+      files
     };
   }
 
@@ -35,25 +38,36 @@ export class UploadController {
    * @param body 
    * @returns 
    */
-  @Post('files')
-  @UseInterceptors(FilesInterceptor('file'))
-  addFiles(@UploadedFiles() files, @Body() body) {
-    for (const file of files) {
-      const writeImage =
-        createWriteStream(join(__dirname, '../../public/file', `${body.name}-${Date.now()}-${file.originalname}`));
-      writeImage.write(file.buffer);
+  @Post('uploadFiles')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'file', },
+    { name: 'image', },
+    { name: 'avatar', maxCount: 1 },
+  ]))
+  uploadFiles(@UploadedFiles() files) {
+    for (const fileArray in files) {
+      for (const file of files[fileArray]) {
+        file.path = file.path.replace(/\\/g, '/'); // 转换正反斜线，转换结果如： `"path": "public/uploads/image/2020-04-08/V0QYQ0VN3GH6ASHXCGC901.jpg",`
+      }
     }
-    return files.buffer;
+    console.log(files);
+
+    return {
+      code: 200,
+      state: 'success',
+      message: '文件群集上传成功',
+      files
+    };
   }
 
   /**
    * 获取并下载单个文件
    * @param res 
    */
-  @Get('file')
+  @Get('downloadFile')
   downloadFile(@Res() res: Response, @Query() query: object) {
     let key = 'fileURL';
-    console.log(__dirname, query[key]);
+    console.log(join(__dirname), query[key]);
     const url = join(query[key]); // 正常开发中 url 应该是从数据库中的
     res.download(url); // 将指定路径的文件作为附件传输给浏览器
   }

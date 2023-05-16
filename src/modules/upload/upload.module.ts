@@ -9,6 +9,7 @@ import { checkDirAndCreate } from '../../utils/checkDirAndCreate';
 const image = ['gif', 'png', 'jpg', 'jpeg', 'bmp', 'webp'];
 const video = ['mp4', 'webm'];
 const audio = ['mp3', 'wav', 'ogg'];
+const work = ['txt', 'rtf', 'pdf', 'xls', 'xlsx', 'doc', 'docx', 'ppt', 'pptx'];
 
 // 配置文件上传
 const multerOptions: MulterOptions = {
@@ -29,7 +30,11 @@ const multerOptions: MulterOptions = {
       audio.filter(item => item === mimeType).length > 0
         ? (temp = 'audio')
         : '';
-      const filePath = `public/upload/${temp}/`;
+      work.filter(item => item === mimeType).length > 0
+        ? (temp = 'file')
+        : '';
+
+      const filePath = `./public/upload/${temp}/`;
       checkDirAndCreate(filePath); // 判断文件夹是否存在，不存在则自动生成
       return cb(null, `./${filePath}`);
     },
