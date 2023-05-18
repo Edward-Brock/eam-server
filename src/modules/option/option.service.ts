@@ -80,7 +80,7 @@ export class OptionService {
       })
         .pipe(map((res) => res.data))
         .subscribe((data) => {
-          resolve(data);
+          resolve({ openid: data.openid });
         });
     });
   }

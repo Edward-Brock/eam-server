@@ -6,7 +6,7 @@ WORKDIR /usr/src/app
 COPY package.json /usr/src/app
 COPY .env.production /usr/src/app
 
-RUN npm install
+RUN npm install --registry=https://registry.npm.taobao.org
 
 COPY . /usr/src/app
 

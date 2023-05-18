@@ -40,18 +40,21 @@ export class UserEntity extends BaseEntity {
 
     @Column({
         comment: '用户出生日期',
-        nullable: true
+        nullable: true,
+        type: 'date'
     })
     birthday: Date;
 
     @Column({
         comment: '用户入职日期',
-        nullable: true
+        nullable: true,
+        type: 'date'
     })
     joined_date: Date;
 
     @Column({
-        comment: '用户微信 SESSION KEY'
+        comment: '用户微信 SESSION KEY',
+        nullable: true
     })
     session_key: string;
 
